@@ -4,7 +4,7 @@ Personal Finance and Budgeting Tracker REST API built with Node.js, Express, Mon
 
 ## Project Status
 
-Current checkpoint: **Checkpoint 1 - Server Setup, MVC Foundation, and Secure Auth**
+Current checkpoint: **Checkpoint 2 - Core Ledger Transactions CRUD completed**
 
 Completed so far:
 
@@ -13,8 +13,13 @@ Completed so far:
 - Express server foundation added
 - Environment configuration added
 - MVC folder structure created
-- MongoDB Atlas connection string prepared
+- MongoDB Atlas connection configured
 - Basic `/health` route available
+- Secure auth flow with JWT stored in HttpOnly cookies
+- Auth validation for register and login
+- Protected `/api/auth/me` route
+- Transaction model, controller, routes, and validation
+- User-scoped transaction CRUD with pagination and filtering
 
 ## Tech Stack
 
@@ -37,17 +42,29 @@ This project follows a strict MVC structure.
 ```text
 src/
   config/
+    db.js
     env.js
 
   controllers/
+    authController.js
+    transactionController.js
 
   middlewares/
+    authMiddleware.js
+    authValidators.js
+    transactionValidators.js
+    validateRequest.js
 
   models/
+    Transaction.js
+    User.js
 
   routes/
+    authRoutes.js
+    transactionRoutes.js
 
   utils/
+    generateToken.js
 
   server.js
 ```
@@ -130,28 +147,97 @@ Expected response:
 }
 ```
 
+## Authentication
+
+Authentication uses JWTs stored in secure HttpOnly cookies.
+
+```text
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
+GET  /api/auth/me
+```
+
+After register or login, the API sets a cookie named `token`. Protected routes read this cookie through `authMiddleware`.
+
+Example register body:
+
+```json
+{
+  "name": "Shubham Raut",
+  "email": "shubham24raut@gmail.com",
+  "password": "shubham@24"
+}
+```
+
+Example login body:
+
+```json
+{
+  "email": "shubham24raut@gmail.com",
+  "password": "shubham@24"
+}
+```
+
+## Transactions
+
+All transaction routes are protected. Login first so the `token` cookie is available.
+
+```text
+POST   /api/transactions
+GET    /api/transactions
+PUT    /api/transactions/:id
+DELETE /api/transactions/:id
+```
+
+Example create body:
+
+```json
+{
+  "amount": 199,
+  "type": "expense",
+  "category": "Entertainment",
+  "merchant": "Netflix",
+  "date": "2026-08-16"
+}
+```
+
+Supported transaction query params:
+
+```text
+GET /api/transactions?page=1&limit=10
+GET /api/transactions?type=expense
+GET /api/transactions?category=Food
+```
+
+Transaction access is always scoped to the authenticated user through `req.user.id`.
+
 ## Development Roadmap
 
 ### Checkpoint 1: Server Setup, MVC Foundation, and Secure Auth
 
-- Initialize Express server
-- Configure environment variables
-- Connect MongoDB
-- Create `User` model
-- Create auth controller
-- Create auth routes
-- Add JWT cookie authentication middleware
+- Completed
+- Express server initialized
+- Environment variables configured
+- MongoDB connected
+- `User` model created
+- Auth controller and routes created
+- JWT cookie authentication middleware added
+- `/api/auth/me` protected route added
 
 ### Checkpoint 2: Core Ledger
 
-- Create `Transaction` model
-- Implement transaction CRUD controllers
-- Add protected transaction routes
-- Implement pagination
-- Enforce user-level data isolation with `req.user.id`
+- Completed
+- `Transaction` model created
+- Transaction CRUD controllers implemented
+- Protected transaction routes added
+- Pagination and basic filtering implemented
+- User-level data isolation enforced with `req.user.id`
+- Transaction validation added
 
 ### Checkpoint 3: Budgets and Aggregations
 
+- Next checkpoint
 - Create `Budget` model
 - Create budget controller
 - Create analytics controller

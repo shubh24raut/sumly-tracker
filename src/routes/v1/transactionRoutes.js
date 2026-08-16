@@ -4,15 +4,15 @@ import {
   deleteTransaction,
   getTransactions,
   updateTransaction,
-} from "../controllers/transactionController.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
+} from "../../controllers/transactionController.js";
+import authMiddleware from "../../middlewares/authMiddleware.js";
 import {
   createTransactionValidator,
   getTransactionsValidator,
   transactionIdValidator,
   updateTransactionValidator,
-} from "../middlewares/transactionValidators.js";
-import validateRequest from "../middlewares/validateRequest.js";
+} from "../../middlewares/transactionValidators.js";
+import validateRequest from "../../middlewares/validateRequest.js";
 
 const router = express.Router();
 

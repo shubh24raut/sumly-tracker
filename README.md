@@ -60,8 +60,9 @@ src/
     User.js
 
   routes/
-    authRoutes.js
-    transactionRoutes.js
+    v1/
+      authRoutes.js
+      transactionRoutes.js
 
   utils/
     generateToken.js

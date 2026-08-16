@@ -17,7 +17,7 @@ Completed so far:
 - Basic `/health` route available
 - Secure auth flow with JWT stored in HttpOnly cookies
 - Auth validation for register and login
-- Protected `/api/auth/me` route
+- Protected `/api/v1/auth/me` route
 - Transaction model, controller, routes, and validation
 - User-scoped transaction CRUD with pagination and filtering
 
@@ -152,10 +152,10 @@ Expected response:
 Authentication uses JWTs stored in secure HttpOnly cookies.
 
 ```text
-POST /api/auth/register
-POST /api/auth/login
-POST /api/auth/logout
-GET  /api/auth/me
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/logout
+GET  /api/v1/auth/me
 ```
 
 After register or login, the API sets a cookie named `token`. Protected routes read this cookie through `authMiddleware`.
@@ -184,10 +184,10 @@ Example login body:
 All transaction routes are protected. Login first so the `token` cookie is available.
 
 ```text
-POST   /api/transactions
-GET    /api/transactions
-PUT    /api/transactions/:id
-DELETE /api/transactions/:id
+POST   /api/v1/transactions
+GET    /api/v1/transactions
+PUT    /api/v1/transactions/:id
+DELETE /api/v1/transactions/:id
 ```
 
 Example create body:
@@ -205,9 +205,9 @@ Example create body:
 Supported transaction query params:
 
 ```text
-GET /api/transactions?page=1&limit=10
-GET /api/transactions?type=expense
-GET /api/transactions?category=Food
+GET /api/v1/transactions?page=1&limit=10
+GET /api/v1/transactions?type=expense
+GET /api/v1/transactions?category=Food
 ```
 
 Transaction access is always scoped to the authenticated user through `req.user.id`.
@@ -223,7 +223,7 @@ Transaction access is always scoped to the authenticated user through `req.user.
 - `User` model created
 - Auth controller and routes created
 - JWT cookie authentication middleware added
-- `/api/auth/me` protected route added
+- `/api/v1/auth/me` protected route added
 
 ### Checkpoint 2: Core Ledger
 

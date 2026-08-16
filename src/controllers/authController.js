@@ -90,3 +90,12 @@ export const logout = (req, res) => {
     message: "User logged out successfully",
   });
 };
+
+export const getMe = (req, res) => {
+  return res.status(200).json({
+    success: true,
+    data: {
+      user: req.user,
+    },
+  });
+};

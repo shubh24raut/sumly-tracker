@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import env from "./config/env.js";
 import { connectDB, disconnectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({

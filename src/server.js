@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import env from "./config/env.js";
 import { connectDB, disconnectDB } from "./config/db.js";
 import authRoutes from "./routes/v1/authRoutes.js";
+import budgetRoutes from "./routes/v1/budgetRoutes.js";
 import transactionRoutes from "./routes/v1/transactionRoutes.js";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/budgets", budgetRoutes);
 app.use("/api/v1/transactions", transactionRoutes);
 
 app.get("/health", (req, res) => {

@@ -25,10 +25,7 @@ const createBudget = async (req, res) => {
       });
     }
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create budget",
-    });
+    throw err;
   }
 };
 
@@ -72,10 +69,7 @@ const updateBudget = async (req, res) => {
       });
     }
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update budget",
-    });
+    throw err;
   }
 };
 

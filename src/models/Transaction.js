@@ -27,6 +27,7 @@ const transactionSchema = new mongoose.Schema(
       type: String,
       required: [true, "Category is required"],
       trim: true,
+      lowercase: true,
       maxlength: [50, "Category cannot exceed 50 characters"],
     },
     merchant: {

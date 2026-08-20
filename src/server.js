@@ -3,6 +3,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import env from "./config/env.js";
 import { connectDB, disconnectDB } from "./config/db.js";
+import {
+  errorMiddleware,
+  notFoundMiddleware,
+} from "./middlewares/errorMiddleware.js";
 import analyticsRoutes from "./routes/v1/analyticsRoutes.js";
 import authRoutes from "./routes/v1/authRoutes.js";
 import budgetRoutes from "./routes/v1/budgetRoutes.js";
@@ -30,6 +34,9 @@ app.get("/health", (req, res) => {
     message: "Server is running",
   });
 });
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 let server;
 

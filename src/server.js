@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import env from "./config/env.js";
 import { connectDB, disconnectDB } from "./config/db.js";
+import analyticsRoutes from "./routes/v1/analyticsRoutes.js";
 import authRoutes from "./routes/v1/authRoutes.js";
 import budgetRoutes from "./routes/v1/budgetRoutes.js";
 import transactionRoutes from "./routes/v1/transactionRoutes.js";
@@ -18,6 +19,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/api/v1/analytics", analyticsRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/budgets", budgetRoutes);
 app.use("/api/v1/transactions", transactionRoutes);

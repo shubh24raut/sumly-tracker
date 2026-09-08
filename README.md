@@ -4,7 +4,7 @@ Personal Finance and Budgeting Tracker REST API built with Node.js, Express, Mon
 
 ## Project Status
 
-Current checkpoint: **Checkpoint 2 - Core Ledger Transactions CRUD completed**
+Current checkpoint: **Checkpoint 4 - Hardening and error handling completed**
 
 Completed so far:
 
@@ -20,6 +20,9 @@ Completed so far:
 - Protected `/api/v1/auth/me` route
 - Transaction model, controller, routes, and validation
 - User-scoped transaction CRUD with pagination and filtering
+- Budget model, controller, routes, and validation
+- Analytics aggregation endpoints
+- Centralized JSON error handling
 
 ## Tech Stack
 
@@ -46,22 +49,30 @@ src/
     env.js
 
   controllers/
+    analyticsController.js
     authController.js
+    budgetController.js
     transactionController.js
 
   middlewares/
+    analyticsValidators.js
     authMiddleware.js
     authValidators.js
+    budgetValidators.js
+    errorMiddleware.js
     transactionValidators.js
     validateRequest.js
 
   models/
+    Budget.js
     Transaction.js
     User.js
 
   routes/
     v1/
+      analyticsRoutes.js
       authRoutes.js
+      budgetRoutes.js
       transactionRoutes.js
 
   utils/
@@ -213,6 +224,44 @@ GET /api/v1/transactions?category=Food
 
 Transaction access is always scoped to the authenticated user through `req.user.id`.
 
+## Budgets
+
+Budgets are category-wise monthly spending limits. All budget routes are protected.
+
+```text
+POST   /api/v1/budgets
+GET    /api/v1/budgets
+PUT    /api/v1/budgets/:id
+DELETE /api/v1/budgets/:id
+```
+
+Example create body:
+
+```json
+{
+  "category": "Food",
+  "monthlyLimit": 8000
+}
+```
+
+Each user can have only one budget per category.
+
+## Analytics
+
+Analytics routes are protected and require `month` and `year` query params.
+
+```text
+GET /api/v1/analytics/monthly-summary?month=8&year=2026
+GET /api/v1/analytics/category-breakdown?month=8&year=2026
+GET /api/v1/analytics/budget-progress?month=8&year=2026
+```
+
+Analytics includes:
+
+- monthly income, expenses, and balance
+- expense totals grouped by category
+- budget limit vs actual spending progress
+
 ## Development Roadmap
 
 ### Checkpoint 1: Server Setup, MVC Foundation, and Secure Auth
@@ -238,20 +287,21 @@ Transaction access is always scoped to the authenticated user through `req.user.
 
 ### Checkpoint 3: Budgets and Aggregations
 
-- Next checkpoint
-- Create `Budget` model
-- Create budget controller
-- Create analytics controller
-- Add monthly summary aggregation
-- Add categorized spending aggregation
-- Add budget progress aggregation
+- Completed
+- `Budget` model created
+- Budget controller and routes created
+- Analytics controller and routes created
+- Monthly summary aggregation added
+- Categorized spending aggregation added
+- Budget progress aggregation added
 
 ### Checkpoint 4: Hardening, Middleware, and Error Handling
 
-- Add route-level validation rules
-- Add centralized error middleware
-- Standardize JSON error responses
-- Improve async error handling
+- Completed
+- Route-level validation rules added
+- Centralized error middleware added
+- Standardized JSON error responses added
+- Invalid routes return JSON 404 responses
 
 ## Git Notes
 
